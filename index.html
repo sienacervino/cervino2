@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cervino Celebrations</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf9f6;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --border-strong: rgba(0,0,0,0.15);
+      --text: #1c1c1a;
+      --text-secondary: #6b6b67;
+      --text-tertiary: #a0a09b;
+      --accent: #0a1f44;
+      --accent-light: #e6eaf5;
+      --accent-mid: #1a3a6b;
+      --radius-md: 8px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+    }
+
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,249,246,0.92); backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { cursor: pointer; }
+    .nav-logo img { height: 36px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; cursor: pointer; transition: color 0.15s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-cta { font-size: 13px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); padding: 8px 16px; cursor: pointer; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .hero { max-width: 780px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: center; }
+    .hero-badge { display: inline-block; font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-light); border-radius: 100px; padding: 5px 14px; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.15; margin-bottom: 1.25rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 18px; color: var(--text-secondary); line-height: 1.7; max-width: 520px; margin: 0 auto 2.5rem; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); padding: 12px 24px; cursor: pointer; }
+    .btn-secondary { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: transparent; color: var(--text); border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 12px 24px; cursor: pointer; }
+
+    .features { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+    .section-label { font-size: 12px; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+    .features h2 { font-size: 36px; margin-bottom: 3rem; max-width: 400px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .feature-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .feature-icon { width: 40px; height: 40px; background: var(--accent-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1rem; }
+    .feature-card h3 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    .photos-section { background: var(--surface); padding: 5rem 2rem; }
+    .photos-inner { max-width: 900px; margin: 0 auto; }
+    .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2.5rem; }
+    .photo-slot { aspect-ratio: 3/4; border-radius: var(--radius-lg); overflow: hidden; position: relative; background: var(--accent-light); }
+    .photo-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .email-section { background: var(--accent); padding: 4rem 2rem; text-align: center; }
+    .email-section h2 { font-size: 32px; color: #fff; margin-bottom: 0.75rem; }
+    .email-section p { color: rgba(255,255,255,0.75); font-size: 16px; margin-bottom: 2rem; }
+    .email-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 480px; margin: 0 auto; }
+    .email-form input { font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 11px 16px; border: none; border-radius: var(--radius-md); outline: none; flex: 1; min-width: 160px; background: rgba(255,255,255,0.15); color: #fff; }
+    .email-form input::placeholder { color: rgba(255,255,255,0.5); }
+    .email-form button { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; background: #fff; color: var(--accent); border: none; border-radius: var(--radius-md); padding: 11px 20px; cursor: pointer; }
+    .confirm-msg { color: #fff; font-size: 15px; margin-top: 1rem; display: none; }
+
+    .about-hero { max-width: 780px; margin: 0 auto; padding: 5rem 2rem 3rem; }
+    .about-hero h1 { font-size: 48px; margin-bottom: 1rem; }
+    .about-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.8; max-width: 580px; }
+    .about-video { max-width: 780px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .video-embed { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 14px; flex-direction: column; gap: 12px; }
+    .video-note { font-size: 13px; color: var(--text-tertiary); margin-top: 12px; text-align: center; }
+
+    .how-hero { max-width: 780px; margin: 0 auto; padding: 5rem 2rem 2rem; text-align: center; }
+    .how-hero h1 { font-size: 48px; margin-bottom: 1rem; }
+    .how-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; }
+    .demo-section { max-width: 780px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+    .demo-wrapper { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; }
+    .planner-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .planner-group { display: flex; flex-direction: column; gap: 5px; }
+    .planner-group.full { grid-column: 1/-1; }
+    .planner-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .planner-input, .planner-select, .planner-textarea { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 9px 12px; outline: none; width: 100%; }
+    .planner-textarea { resize: vertical; min-height: 68px; }
+    .planner-btn { width: 100%; margin-top: 10px; padding: 11px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
+    .planner-loading { text-align: center; padding: 2.5rem; color: var(--text-secondary); font-size: 14px; }
+    .dot-anim::after { content: '.'; animation: dots 1.2s steps(1) infinite; }
+    @keyframes dots { 0%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+    .result-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 14px; }
+    .result-card-header { display: flex; align-items: center; gap: 10px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 0.5px solid var(--border); }
+    .result-icon { width: 28px; height: 28px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .result-title { font-size: 14px; font-weight: 500; }
+    .result-body { font-size: 13px; line-height: 1.7; }
+    .result-body h3 { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin: 10px 0 4px; }
+    .result-body ul { padding-left: 1.1rem; }
+    .result-body li { margin-bottom: 4px; }
+    .venue-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 0.5px solid var(--border); }
+    .venue-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .venue-name { font-weight: 500; font-size: 13px; }
+    .venue-cost { font-size: 12px; color: var(--text-secondary); margin-left: 5px; }
+    .venue-tip { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+    .budget-row { margin-bottom: 8px; }
+    .budget-row-top { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; }
+    .budget-bar { height: 4px; background: #e5e5e5; border-radius: 4px; }
+    .budget-fill { height: 4px; background: var(--accent); border-radius: 4px; }
+    .reset-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-secondary); background: none; border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 6px 14px; cursor: pointer; margin-top: 4px; }
+
+    .contact-hero { max-width: 680px; margin: 0 auto; padding: 5rem 2rem 3rem; }
+    .contact-hero h1 { font-size: 48px; margin-bottom: 1rem; }
+    .contact-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; }
+    .contact-form-wrap { max-width: 680px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .contact-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .contact-group { display: flex; flex-direction: column; gap: 6px; }
+    .contact-group.full { grid-column: 1/-1; }
+    .contact-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+    .contact-input, .contact-textarea { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 10px 14px; outline: none; width: 100%; }
+    .contact-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    .contact-submit { width: 100%; margin-top: 8px; padding: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
+    .contact-success { text-align: center; padding: 3rem 1rem; display: none; }
+    .contact-success h3 { font-size: 22px; margin-bottom: 0.5rem; }
+    .contact-success p { color: var(--text-secondary); font-size: 15px; }
+
+    footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
+
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      .photos-grid { grid-template-columns: 1fr; }
+      .planner-form-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <img src="Logo.png" alt="Cervino Celebrations" />
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('how')" id="nav-how">How It Works</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Get started</button>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <img src="Logo.png" alt="Cervino Celebrations" style="height:150px;display:block;margin:0 auto 1.5rem;" />
+    <div class="hero-badge">AI-powered event planning</div>
+    <h1>Plan unforgettable events <span>without breaking the bank</span></h1>
+    <p>Cervino Celebrations is the AI event planning assistant built specifically for college organizations — smart venue matching, budget breakdowns, and everything in between.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('how')">Try the planner</button>
+      <button class="btn-secondary" onclick="showPage('about')">Learn more</button>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-label">What we do</div>
+    <h2>Everything your org needs to plan with confidence</h2>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">📍</div><h3>Venue matching</h3><p>Get venue suggestions tailored to your school, headcount, and budget.</p></div>
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>Budget breakdown</h3><p>See exactly where your money goes with an itemized plan built for student org budgets.</p></div>
+      <div class="feature-card"><div class="feature-icon">✨</div><h3>Decor checklist</h3><p>From essentials to DIY ideas — get a full supply list that fits your theme and wallet.</p></div>
+      <div class="feature-card"><div class="feature-icon">📅</div><h3>Planning timeline</h3><p>Never miss a deadline. Get a week-by-week checklist so your event comes together smoothly.</p></div>
+    </div>
+  </section>
+
+  <section class="photos-section">
+    <div class="photos-inner">
+      <div class="section-label">Meet the founder</div>
+      <h2 style="font-size:36px;margin-bottom:0.5rem">Built by a student, for students</h2>
+      <p style="color:var(--text-secondary);font-size:16px;line-height:1.7;max-width:500px;margin-top:0.5rem">Cervino Celebrations was created to solve the exact problem student orgs face every semester — great ideas, limited budgets, and no roadmap.</p>
+      <div class="photos-grid">
+        <div class="photo-slot"><img src="IMG_3460.jpg" alt="Photo 1" /></div>
+        <div class="photo-slot"><img src="IMG_3461.jpg" alt="Photo 2" /></div>
+        <div class="photo-slot"><img src="IMG_3462.jpg" alt="Photo 3" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="email-section">
+    <h2>Stay in the loop</h2>
+    <p>Be the first to know when new features drop. No spam, ever.</p>
+    <div class="email-form">
+      <input type="text" id="capture-name" placeholder="Your name" />
+      <input type="email" id="capture-email" placeholder="Your email" />
+      <button onclick="submitCapture()">Sign me up</button>
+    </div>
+    <div class="confirm-msg" id="confirm-msg">You're on the list! We'll be in touch soon.</div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <div class="section-label">About</div>
+    <h1>Planning made simple</h1>
+    <p>Cervino Celebrations is an AI-powered event planning assistant designed exclusively for college student organizations. Whether you're hosting a mixer, fundraiser, or end-of-year banquet, we help you plan smarter — with real venue options, honest budget breakdowns, and a step-by-step timeline, all tailored to your school and your budget.</p>
+    <p style="margin-top:1rem">No more spreadsheets. No more guessing. Just a clean, fast plan you can actually execute.</p>
+  </div>
+  <div class="about-video">
+    <div class="section-label" style="margin-bottom:1rem">Pitch video</div>
+    <div class="video-embed">
+      <div style="font-size:48px;opacity:0.3">▶️</div>
+      <p>Paste your YouTube or Vimeo embed link here</p>
+    </div>
+    <p class="video-note">To add your video: replace the div above with your YouTube embed iframe</p>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="page-how" class="page">
+  <div class="how-hero">
+    <div class="section-label">How it works</div>
+    <h1>Plan your event in minutes</h1>
+    <p>Fill in the details below and our AI will generate a full event plan — venue options, budget breakdown, decor checklist, and timeline.</p>
+  </div>
+  <div class="demo-section">
+    <div class="demo-wrapper">
+      <div id="planner-form">
+        <div class="planner-form-grid">
+          <div class="planner-group full">
+            <label class="planner-label">School / university</label>
+            <input class="planner-input" id="p-school" placeholder="e.g. Penn State University" />
+          </div>
+          <div class="planner-group">
+            <label class="planner-label">Event type</label>
+            <select class="planner-select" id="p-type">
+              <option value="">Select...</option>
+              <option>General meeting</option>
+              <option>Social mixer</option>
+              <option>Fundraiser</option>
+              <option>Workshop / speaker</option>
+              <option>Outdoor hangout</option>
+              <option>Game night</option>
+              <option>Cultural celebration</option>
+              <option>Formal / banquet</option>
+              <option>Community service</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="planner-group">
+            <label class="planner-label">Expected attendance</label>
+            <input class="planner-input" id="p-attendance" type="number" placeholder="e.g. 50" min="1" />
+          </div>
+          <div class="planner-group">
+            <label class="planner-label">Total budget ($)</label>
+            <input class="planner-input" id="p-budget" type="number" placeholder="e.g. 300" min="0" />
+          </div>
+          <div class="planner-group">
+            <label class="planner-label">Date & time</label>
+            <input class="planner-input" id="p-datetime" type="datetime-local" />
+          </div>
+          <div class="planner-group full">
+            <label class="planner-label">Theme <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></label>
+            <input class="planner-input" id="p-theme" placeholder="e.g. 80s night, tropical vibes..." />
+          </div>
+          <div class="planner-group full">
+            <label class="planner-label">Anything else? <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></label>
+            <textarea class="planner-textarea" id="p-notes" placeholder="e.g. we have folding tables, need to wrap up by 10pm..."></textarea>
+          </div>
+        </div>
+        <button class="planner-btn" onclick="runPlanner()">Generate my event plan →</button>
+      </div>
+      <div id="planner-loading" style="display:none">
+        <div class="planner-loading">Building your plan<span class="dot-anim"></span></div>
+      </div>
+      <div id="planner-results" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page">
+  <div class="contact-hero">
+    <div class="section-label">Contact</div>
+    <h1>Let's talk</h1>
+    <p>Have a question or want to bring Cervino Celebrations to your org? Fill out the form and we'll get back to you shortly.</p>
+  </div>
+  <div class="contact-form-wrap">
+    <div class="contact-card">
+      <div id="contact-form">
+        <div class="contact-grid">
+          <div class="contact-group"><label class="contact-label">First name</label><input class="contact-input" id="c-first" placeholder="Jane" /></div>
+          <div class="contact-group"><label class="contact-label">Last name</label><input class="contact-input" id="c-last" placeholder="Doe" /></div>
+          <div class="contact-group full"><label class="contact-label">Email</label><input class="contact-input" type="email" id="c-email" placeholder="jane@university.edu" /></div>
+          <div class="contact-group full"><label class="contact-label">Organization / club name</label><input class="contact-input" id="c-org" placeholder="e.g. Asian Student Union" /></div>
+          <div class="contact-group full"><label class="contact-label">Message</label><textarea class="contact-textarea" id="c-msg" placeholder="Tell us what you're planning..."></textarea></div>
+        </div>
+        <button class="contact-submit" onclick="submitContact()">Send message</button>
+      </div>
+      <div class="contact-success" id="contact-success">
+        <div style="font-size:40px;margin-bottom:1rem">✅</div>
+        <h3>Message sent!</h3>
+        <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Cervino Celebrations · AI event planning for college organizations</p>
+</footer>
+
+<script>
+var ANTHROPIC_API_KEY = ';
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  var navEl = document.getElementById('nav-' + name);
+  if (navEl) { navEl.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+function submitCapture() {
+  var name = document.getElementById('capture-name').value.trim();
+  var email = document.getElementById('capture-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email.'); return; }
+  document.getElementById('confirm-msg').style.display = 'block';
+  document.getElementById('capture-name').value = '';
+  document.getElementById('capture-email').value = '';
+}
+
+function submitContact() {
+  var first = document.getElementById('c-first').value.trim();
+  var email = document.getElementById('c-email').value.trim();
+  if (!first || !email) { alert('Please fill in your name and email.'); return; }
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('contact-success').style.display = 'block';
+}
+
+async function runPlanner() {
+  var school = document.getElementById('p-school').value.trim();
+  var type = document.getElementById('p-type').value;
+  var attendance = document.getElementById('p-attendance').value;
+  var budget = document.getElementById('p-budget').value;
+  var datetime = document.getElementById('p-datetime').value;
+  var theme = document.getElementById('p-theme').value.trim();
+  var notes = document.getElementById('p-notes').value.trim();
+
+  if (!school || !type || !attendance || !budget) {
+    alert('Please fill in school, event type, attendance, and budget.');
+    return;
+  }
+
+  document.getElementById('planner-form').style.display = 'none';
+  document.getElementById('planner-loading').style.display = 'block';
+
+  var dateStr = datetime ? new Date(datetime).toLocaleString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'2-digit' }) : 'TBD';
+
+  var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON, no markdown, no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor & supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
+
+  try {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, messages: [{ role: 'user', content: prompt }] })
+    });
+    var data = await res.json();
+    var text = data.content.map(function(b) { return b.text || ''; }).join('');
+    var result = JSON.parse(text.replace(/```json|```/g, '').trim());
+    document.getElementById('planner-loading').style.display = 'none';
+    renderPlan(result);
+  } catch(e) {
+    document.getElementById('planner-loading').style.display = 'none';
+    document.getElementById('planner-results').style.display = 'block';
+    document.getElementById('planner-results').innerHTML = '<p style="color:#A32D2D;font-size:14px;padding:1rem;background:#FCEBEB;border-radius:8px">Error: ' + e.message + '</p><button class="reset-btn" onclick="resetPlanner()">Try again</button>';
+  }
+}
+
+function renderPlan(r) {
+  var sec = document.getElementById('planner-results');
+  sec.style.display = 'block';
+  var html = '';
+
+  if (r.venues) {
+    html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">📍</div><span class="result-title">' + r.venues.title + '</span></div><div class="result-body">';
+    r.venues.options.forEach(function(v) { html += '<div class="venue-item"><div><span class="venue-name">' + v.name + '</span><span class="venue-cost">— ' + v.estimatedCost + '</span></div><p>' + v.description + '</p><p class="venue-tip">💡 ' + v.tip + '</p></div>'; });
+    html += '</div></div>';
+  }
+
+  if (r.budget) {
+    html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">💰</div><span class="result-title">' + r.budget.title + '</span></div><div class="result-body">';
+    r.budget.items.forEach(function(i) { html += '<div class="budget-row"><div class="budget-row-top"><span><b>' + i.category + '</b> <span style="color:var(--text-secondary);font-size:12px">' + i.notes + '</span></span><span>' + i.estimated + '</span></div><div class="budget-bar"><div class="budget-fill" style="width:' + Math.min(i.percentage,100) + '%"></div></div></div>'; });
+    html += '<h3>Saving tips</h3><ul>';
+    r.budget.savingTips.forEach(function(t) { html += '<li>' + t + '</li>'; });
+    html += '</ul></div></div>';
+  }
+
+  if (r.decor) {
+    html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">✨</div><span class="result-title">' + r.decor.title + '</span></div><div class="result-body"><h3>Essentials</h3><ul>';
+    r.decor.essentials.forEach(function(i) { html += '<li>' + i + '</li>'; });
+    html += '</ul><h3>Nice to have</h3><ul>';
+    r.decor.niceToHave.forEach(function(i) { html += '<li>' + i + '</li>'; });
+    html += '</ul><h3>DIY ideas</h3><ul>';
+    r.decor.diySuggestions.forEach(function(i) { html += '<li>' + i + '</li>'; });
+    html += '</ul></div></div>';
+  }
+
+  if (r.timeline) {
+    html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">📅</div><span class="result-title">' + r.timeline.title + '</span></div><div class="result-body">';
+    r.timeline.tasks.forEach(function(p) { html += '<h3>' + p.timeframe + '</h3><ul>'; p.tasks.forEach(function(t) { html += '<li>' + t + '</li>'; }); html += '</ul>'; });
+    html += '</div></div>';
+  }
+
+  html += '<button class="reset-btn" onclick="resetPlanner()">← Plan another event</button>';
+  sec.innerHTML = html;
+}
+
+function resetPlanner() {
+  document.getElementById('planner-results').style.display = 'none';
+  document.getElementById('planner-results').innerHTML = '';
+  document.getElementById('planner-form').style.display = 'block';
+}
+</script>
+</body>
+</html>
