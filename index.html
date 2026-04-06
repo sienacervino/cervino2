@@ -358,7 +358,7 @@
 </footer>
 
 <script>
-var ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+var ANTHROPIC_API_KEY = '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';
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) {
@@ -420,16 +420,15 @@ async function runPlanner() {
   var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON with no markdown and no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor and supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
 
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+    
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'meta-llama/llama-3.3-8b-instruct:free',
         max_tokens: 1500,
         messages: [{ role: 'user', content: prompt }]
       })
