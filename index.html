@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --bg: #faf9f6;
       --surface: #ffffff;
@@ -23,26 +22,17 @@
       --radius-lg: 14px;
       --radius-xl: 20px;
     }
-
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     h1, h2, h3 { font-family: 'DM Serif Display', serif; }
-
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250,249,246,0.92); backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
-      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
-    }
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(250,249,246,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
     .nav-logo { cursor: pointer; }
     .nav-logo img { height: 36px; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; cursor: pointer; transition: color 0.15s; }
     .nav-links a:hover, .nav-links a.active { color: var(--text); }
     .nav-cta { font-size: 13px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); padding: 8px 16px; cursor: pointer; }
-
     .page { display: none; }
     .page.active { display: block; }
-
     .hero { max-width: 780px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: center; }
     .hero-badge { display: inline-block; font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-light); border-radius: 100px; padding: 5px 14px; margin-bottom: 1.5rem; }
     .hero h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.15; margin-bottom: 1.25rem; }
@@ -51,22 +41,19 @@
     .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     .btn-primary { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-md); padding: 12px 24px; cursor: pointer; }
     .btn-secondary { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; background: transparent; color: var(--text); border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 12px 24px; cursor: pointer; }
-
-    .features { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
     .section-label { font-size: 12px; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+    .features { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
     .features h2 { font-size: 36px; margin-bottom: 3rem; max-width: 400px; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
     .feature-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
     .feature-icon { width: 40px; height: 40px; background: var(--accent-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1rem; }
     .feature-card h3 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
     .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
     .photos-section { background: var(--surface); padding: 5rem 2rem; }
     .photos-inner { max-width: 900px; margin: 0 auto; }
     .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2.5rem; }
     .photo-slot { aspect-ratio: 3/4; border-radius: var(--radius-lg); overflow: hidden; position: relative; background: var(--accent-light); }
     .photo-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-
     .email-section { background: var(--accent); padding: 4rem 2rem; text-align: center; }
     .email-section h2 { font-size: 32px; color: #fff; margin-bottom: 0.75rem; }
     .email-section p { color: rgba(255,255,255,0.75); font-size: 16px; margin-bottom: 2rem; }
@@ -75,14 +62,10 @@
     .email-form input::placeholder { color: rgba(255,255,255,0.5); }
     .email-form button { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; background: #fff; color: var(--accent); border: none; border-radius: var(--radius-md); padding: 11px 20px; cursor: pointer; }
     .confirm-msg { color: #fff; font-size: 15px; margin-top: 1rem; display: none; }
-
     .about-hero { max-width: 780px; margin: 0 auto; padding: 5rem 2rem 3rem; }
     .about-hero h1 { font-size: 48px; margin-bottom: 1rem; }
     .about-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.8; max-width: 580px; }
     .about-video { max-width: 780px; margin: 0 auto; padding: 0 2rem 5rem; }
-    .video-embed { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 14px; flex-direction: column; gap: 12px; }
-    .video-note { font-size: 13px; color: var(--text-tertiary); margin-top: 12px; text-align: center; }
-
     .how-hero { max-width: 780px; margin: 0 auto; padding: 5rem 2rem 2rem; text-align: center; }
     .how-hero h1 { font-size: 48px; margin-bottom: 1rem; }
     .how-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; }
@@ -116,7 +99,6 @@
     .budget-bar { height: 4px; background: #e5e5e5; border-radius: 4px; }
     .budget-fill { height: 4px; background: var(--accent); border-radius: 4px; }
     .reset-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-secondary); background: none; border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 6px 14px; cursor: pointer; margin-top: 4px; }
-
     .contact-hero { max-width: 680px; margin: 0 auto; padding: 5rem 2rem 3rem; }
     .contact-hero h1 { font-size: 48px; margin-bottom: 1rem; }
     .contact-hero p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; }
@@ -132,14 +114,15 @@
     .contact-success { text-align: center; padding: 3rem 1rem; display: none; }
     .contact-success h3 { font-size: 22px; margin-bottom: 0.5rem; }
     .contact-success p { color: var(--text-secondary); font-size: 15px; }
-
+    .pricing-section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left; margin-top: 3rem; }
     footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
-
     @media (max-width: 560px) {
       .nav-links { display: none; }
       .photos-grid { grid-template-columns: 1fr; }
       .planner-form-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -153,9 +136,10 @@
     <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a onclick="showPage('about')" id="nav-about">About</a></li>
     <li><a onclick="showPage('how')" id="nav-how">How It Works</a></li>
+    <li><a onclick="showPage('pricing')" id="nav-pricing">Pricing</a></li>
     <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
   </ul>
-  <button class="nav-cta" onclick="showPage('contact')">Get started</button>
+  <button class="nav-cta" onclick="showPage('pricing')">Get started</button>
 </nav>
 
 <!-- HOME -->
@@ -217,13 +201,11 @@
   </div>
   <div class="about-video">
     <div class="section-label" style="margin-bottom:1rem">Pitch video</div>
-    <div class="video-embed">
-     <div style="border-radius:var(--radius-xl);overflow:hidden;max-width:350px;margin:0 auto">
-  <video width="100%" controls style="display:block;border-radius:var(--radius-xl)">
-    <source src="IMG_3397.mp4" type="video/mp4">
-  </video>
+    <div style="border-radius:var(--radius-xl);overflow:hidden;max-width:350px;margin:0 auto">
+      <video width="100%" controls style="display:block;border-radius:var(--radius-xl)">
+        <source src="IMG_3397.mp4" type="video/mp4">
+      </video>
     </div>
-    <p class="video-note">To add your video: replace the div above with your YouTube embed iframe</p>
   </div>
 </div>
 
@@ -267,24 +249,78 @@
             <input class="planner-input" id="p-budget" type="number" placeholder="e.g. 300" min="0" />
           </div>
           <div class="planner-group">
-            <label class="planner-label">Date & time</label>
+            <label class="planner-label">Date and time</label>
             <input class="planner-input" id="p-datetime" type="datetime-local" />
           </div>
           <div class="planner-group full">
-            <label class="planner-label">Theme <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></label>
+            <label class="planner-label">Theme (optional)</label>
             <input class="planner-input" id="p-theme" placeholder="e.g. 80s night, tropical vibes..." />
           </div>
           <div class="planner-group full">
-            <label class="planner-label">Anything else? <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></label>
+            <label class="planner-label">Anything else? (optional)</label>
             <textarea class="planner-textarea" id="p-notes" placeholder="e.g. we have folding tables, need to wrap up by 10pm..."></textarea>
           </div>
         </div>
-        <button class="planner-btn" onclick="runPlanner()">Generate my event plan →</button>
+        <button class="planner-btn" onclick="runPlanner()">Generate my event plan</button>
       </div>
       <div id="planner-loading" style="display:none">
         <div class="planner-loading">Building your plan<span class="dot-anim"></span></div>
       </div>
       <div id="planner-results" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div id="page-pricing" class="page">
+  <div class="pricing-section">
+    <div class="section-label">Pricing</div>
+    <h1 style="font-size:48px;margin-bottom:1rem">Simple, affordable plans</h1>
+    <p style="font-size:17px;color:var(--text-secondary)">Built for student orgs — no hidden fees, no surprises.</p>
+    <div class="pricing-grid">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem">
+        <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:0.5rem">Free</div>
+        <div style="font-size:36px;font-weight:500;margin-bottom:0.25rem">$0</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem">per month</div>
+        <ul style="list-style:none;font-size:14px;line-height:2;color:var(--text-secondary)">
+          <li>✓ 3 event plans per month</li>
+          <li>✓ Venue suggestions</li>
+          <li>✓ Basic budget breakdown</li>
+          <li>✓ Decor checklist</li>
+          <li style="opacity:0.4">✗ Planning timeline</li>
+          <li style="opacity:0.4">✗ Priority support</li>
+        </ul>
+        <button onclick="showPage('contact')" style="width:100%;margin-top:1.5rem;padding:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;background:transparent;color:var(--accent);border:0.5px solid var(--accent);border-radius:var(--radius-md);cursor:pointer">Get started free</button>
+      </div>
+      <div style="background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius-lg);padding:2rem;position:relative">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:500;padding:4px 14px;border-radius:100px;white-space:nowrap">Most popular</div>
+        <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:0.5rem">Pro</div>
+        <div style="font-size:36px;font-weight:500;margin-bottom:0.25rem">$10</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem">per month</div>
+        <ul style="list-style:none;font-size:14px;line-height:2;color:var(--text-secondary)">
+          <li>✓ Unlimited event plans</li>
+          <li>✓ Venue suggestions</li>
+          <li>✓ Full budget breakdown</li>
+          <li>✓ Decor checklist</li>
+          <li>✓ Planning timeline</li>
+          <li>✓ Email support</li>
+        </ul>
+        <button onclick="showPage('contact')" style="width:100%;margin-top:1.5rem;padding:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-md);cursor:pointer">Get started</button>
+      </div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem">
+        <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:0.5rem">Premium</div>
+        <div style="font-size:36px;font-weight:500;margin-bottom:0.25rem">$20</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem">per month</div>
+        <ul style="list-style:none;font-size:14px;line-height:2;color:var(--text-secondary)">
+          <li>✓ Everything in Pro</li>
+          <li>✓ Team access (up to 10)</li>
+          <li>✓ Custom event templates</li>
+          <li>✓ Priority support</li>
+          <li>✓ Early access to features</li>
+          <li>✓ Dedicated account manager</li>
+        </ul>
+        <button onclick="showPage('contact')" style="width:100%;margin-top:1.5rem;padding:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;background:transparent;color:var(--accent);border:0.5px solid var(--accent);border-radius:var(--radius-md);cursor:pointer">Get started</button>
+      </div>
     </div>
   </div>
 </div>
@@ -318,24 +354,34 @@
 </div>
 
 <footer>
-  <p>© 2026 Cervino Celebrations · AI event planning for college organizations</p>
+  <p>2026 Cervino Celebrations · AI event planning for college organizations</p>
 </footer>
 
 <script>
-var ANTHROPIC_API_KEY = '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';
+var ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+
 function showPage(name) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.classList.remove('active');
+  });
   document.getElementById('page-' + name).classList.add('active');
   var navEl = document.getElementById('nav-' + name);
-  if (navEl) { navEl.classList.add('active'); }
+  if (navEl) {
+    navEl.classList.add('active');
+  }
   window.scrollTo(0, 0);
 }
 
 function submitCapture() {
   var name = document.getElementById('capture-name').value.trim();
   var email = document.getElementById('capture-email').value.trim();
-  if (!name || !email) { alert('Please enter your name and email.'); return; }
+  if (!name || !email) {
+    alert('Please enter your name and email.');
+    return;
+  }
   document.getElementById('confirm-msg').style.display = 'block';
   document.getElementById('capture-name').value = '';
   document.getElementById('capture-email').value = '';
@@ -344,7 +390,10 @@ function submitCapture() {
 function submitContact() {
   var first = document.getElementById('c-first').value.trim();
   var email = document.getElementById('c-email').value.trim();
-  if (!first || !email) { alert('Please fill in your name and email.'); return; }
+  if (!first || !email) {
+    alert('Please fill in your name and email.');
+    return;
+  }
   document.getElementById('contact-form').style.display = 'none';
   document.getElementById('contact-success').style.display = 'block';
 }
@@ -368,13 +417,22 @@ async function runPlanner() {
 
   var dateStr = datetime ? new Date(datetime).toLocaleString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'2-digit' }) : 'TBD';
 
-  var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON, no markdown, no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor & supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
+  var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON with no markdown and no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor and supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
 
   try {
     var res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, messages: [{ role: 'user', content: prompt }] })
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
     });
     var data = await res.json();
     var text = data.content.map(function(b) { return b.text || ''; }).join('');
@@ -395,13 +453,17 @@ function renderPlan(r) {
 
   if (r.venues) {
     html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">📍</div><span class="result-title">' + r.venues.title + '</span></div><div class="result-body">';
-    r.venues.options.forEach(function(v) { html += '<div class="venue-item"><div><span class="venue-name">' + v.name + '</span><span class="venue-cost">— ' + v.estimatedCost + '</span></div><p>' + v.description + '</p><p class="venue-tip">💡 ' + v.tip + '</p></div>'; });
+    r.venues.options.forEach(function(v) {
+      html += '<div class="venue-item"><div><span class="venue-name">' + v.name + '</span><span class="venue-cost">— ' + v.estimatedCost + '</span></div><p>' + v.description + '</p><p class="venue-tip">💡 ' + v.tip + '</p></div>';
+    });
     html += '</div></div>';
   }
 
   if (r.budget) {
     html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">💰</div><span class="result-title">' + r.budget.title + '</span></div><div class="result-body">';
-    r.budget.items.forEach(function(i) { html += '<div class="budget-row"><div class="budget-row-top"><span><b>' + i.category + '</b> <span style="color:var(--text-secondary);font-size:12px">' + i.notes + '</span></span><span>' + i.estimated + '</span></div><div class="budget-bar"><div class="budget-fill" style="width:' + Math.min(i.percentage,100) + '%"></div></div></div>'; });
+    r.budget.items.forEach(function(i) {
+      html += '<div class="budget-row"><div class="budget-row-top"><span><b>' + i.category + '</b> <span style="color:var(--text-secondary);font-size:12px">' + i.notes + '</span></span><span>' + i.estimated + '</span></div><div class="budget-bar"><div class="budget-fill" style="width:' + Math.min(i.percentage,100) + '%"></div></div></div>';
+    });
     html += '<h3>Saving tips</h3><ul>';
     r.budget.savingTips.forEach(function(t) { html += '<li>' + t + '</li>'; });
     html += '</ul></div></div>';
@@ -419,7 +481,11 @@ function renderPlan(r) {
 
   if (r.timeline) {
     html += '<div class="result-card"><div class="result-card-header"><div class="result-icon" style="background:#e6eaf5;color:#0a1f44">📅</div><span class="result-title">' + r.timeline.title + '</span></div><div class="result-body">';
-    r.timeline.tasks.forEach(function(p) { html += '<h3>' + p.timeframe + '</h3><ul>'; p.tasks.forEach(function(t) { html += '<li>' + t + '</li>'; }); html += '</ul>'; });
+    r.timeline.tasks.forEach(function(p) {
+      html += '<h3>' + p.timeframe + '</h3><ul>';
+      p.tasks.forEach(function(t) { html += '<li>' + t + '</li>'; });
+      html += '</ul>';
+    });
     html += '</div></div>';
   }
 
