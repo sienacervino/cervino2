@@ -8,19 +8,10 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #faf9f6;
-      --surface: #ffffff;
-      --border: rgba(0,0,0,0.08);
-      --border-strong: rgba(0,0,0,0.15);
-      --text: #1c1c1a;
-      --text-secondary: #6b6b67;
-      --text-tertiary: #a0a09b;
-      --accent: #0a1f44;
-      --accent-light: #e6eaf5;
-      --accent-mid: #1a3a6b;
-      --radius-md: 8px;
-      --radius-lg: 14px;
-      --radius-xl: 20px;
+      --bg: #faf9f6; --surface: #ffffff; --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.15);
+      --text: #1c1c1a; --text-secondary: #6b6b67; --text-tertiary: #a0a09b;
+      --accent: #0a1f44; --accent-light: #e6eaf5;
+      --radius-md: 8px; --radius-lg: 14px; --radius-xl: 20px;
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     h1, h2, h3 { font-family: 'DM Serif Display', serif; }
@@ -117,13 +108,7 @@
     .pricing-section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left; margin-top: 3rem; }
     footer { border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
-    @media (max-width: 560px) {
-      .nav-links { display: none; }
-      .photos-grid { grid-template-columns: 1fr; }
-      .planner-form-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 560px) { .nav-links { display: none; } .photos-grid { grid-template-columns: 1fr; } .planner-form-grid { grid-template-columns: 1fr; } .contact-grid { grid-template-columns: 1fr; } .pricing-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -358,7 +343,7 @@
 </footer>
 
 <script>
-var ANTHROPIC_API_KEY = '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';
+var ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) {
@@ -415,29 +400,39 @@ async function runPlanner() {
   document.getElementById('planner-form').style.display = 'none';
   document.getElementById('planner-loading').style.display = 'block';
 
-  var dateStr = datetime ? new Date(datetime).toLocaleString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'2-digit' }) : 'TBD';
+  var dateStr = datetime ? new Date(datetime).toLocaleString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'}) : 'TBD';
 
   var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON with no markdown and no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor and supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
 
   try {
-    var res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': ANTHROPIC_API_KEY,
-    
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.3-8b-instruct:free',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
-        messages: [{ role: 'user', content: prompt }]
+        messages: [{role: 'user', content: prompt}]
       })
     });
+
     var data = await res.json();
-    var text = data.content.map(function(b) { return b.text || ''; }).join('');
-    var result = JSON.parse(text.replace(/```json|```/g, '').trim());
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+
+    var text = data.content[0].text;
+    var clean = text.replace(/```json|```/g, '').trim();
+    var result = JSON.parse(clean);
+
     document.getElementById('planner-loading').style.display = 'none';
     renderPlan(result);
+
   } catch(e) {
     document.getElementById('planner-loading').style.display = 'none';
     document.getElementById('planner-results').style.display = 'block';
