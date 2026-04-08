@@ -343,7 +343,7 @@
 </footer>
 
 <script>
-var ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+var ANTHROPIC_API_KEY = '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';
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) {
@@ -428,7 +428,8 @@ async function runPlanner() {
 
     var text = data.content[0].text;
     var clean = text.replace(/```json|```/g, '').trim();
-    var result = JSON.parse(clean);
+    var jsonMatch = clean.match(/\{[\s\S]*\}/);
+var result = JSON.parse(jsonMatch ? jsonMatch[0] : clean);
 
     document.getElementById('planner-loading').style.display = 'none';
     renderPlan(result);
