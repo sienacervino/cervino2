@@ -139,7 +139,6 @@
       <button class="btn-secondary" onclick="showPage('about')">Learn more</button>
     </div>
   </section>
-
   <section class="features">
     <div class="section-label">What we do</div>
     <h2>Everything your org needs to plan with confidence</h2>
@@ -150,7 +149,6 @@
       <div class="feature-card"><div class="feature-icon">📅</div><h3>Planning timeline</h3><p>Never miss a deadline. Get a week-by-week checklist so your event comes together smoothly.</p></div>
     </div>
   </section>
-
   <section class="photos-section">
     <div class="photos-inner">
       <div class="section-label">Meet the founder</div>
@@ -163,7 +161,6 @@
       </div>
     </div>
   </section>
-
   <section class="email-section">
     <h2>Stay in the loop</h2>
     <p>Be the first to know when new features drop. No spam, ever.</p>
@@ -172,7 +169,7 @@
       <input type="email" id="capture-email" placeholder="Your email" />
       <button onclick="submitCapture()">Sign me up</button>
     </div>
-    <div class="confirm-msg" id="confirm-msg">You're on the list! We'll be in touch soon.</div>
+    <div class="confirm-msg" id="confirm-msg">You are on the list! We will be in touch soon.</div>
   </section>
 </div>
 
@@ -181,7 +178,7 @@
   <div class="about-hero">
     <div class="section-label">About</div>
     <h1>Planning made simple</h1>
-    <p>Cervino Celebrations is an AI-powered event planning assistant designed exclusively for college student organizations. Whether you're hosting a mixer, fundraiser, or end-of-year banquet, we help you plan smarter — with real venue options, honest budget breakdowns, and a step-by-step timeline, all tailored to your school and your budget.</p>
+    <p>Cervino Celebrations is an AI-powered event planning assistant designed exclusively for college student organizations. Whether you are hosting a mixer, fundraiser, or end-of-year banquet, we help you plan smarter with real venue options, honest budget breakdowns, and a step-by-step timeline, all tailored to your school and your budget.</p>
     <p style="margin-top:1rem">No more spreadsheets. No more guessing. Just a clean, fast plan you can actually execute.</p>
   </div>
   <div class="about-video">
@@ -314,8 +311,8 @@
 <div id="page-contact" class="page">
   <div class="contact-hero">
     <div class="section-label">Contact</div>
-    <h1>Let's talk</h1>
-    <p>Have a question or want to bring Cervino Celebrations to your org? Fill out the form and we'll get back to you shortly.</p>
+    <h1>Lets talk</h1>
+    <p>Have a question or want to bring Cervino Celebrations to your org? Fill out the form and we will get back to you shortly.</p>
   </div>
   <div class="contact-form-wrap">
     <div class="contact-card">
@@ -325,14 +322,14 @@
           <div class="contact-group"><label class="contact-label">Last name</label><input class="contact-input" id="c-last" placeholder="Doe" /></div>
           <div class="contact-group full"><label class="contact-label">Email</label><input class="contact-input" type="email" id="c-email" placeholder="jane@university.edu" /></div>
           <div class="contact-group full"><label class="contact-label">Organization / club name</label><input class="contact-input" id="c-org" placeholder="e.g. Asian Student Union" /></div>
-          <div class="contact-group full"><label class="contact-label">Message</label><textarea class="contact-textarea" id="c-msg" placeholder="Tell us what you're planning..."></textarea></div>
+          <div class="contact-group full"><label class="contact-label">Message</label><textarea class="contact-textarea" id="c-msg" placeholder="Tell us what you are planning..."></textarea></div>
         </div>
         <button class="contact-submit" onclick="submitContact()">Send message</button>
       </div>
       <div class="contact-success" id="contact-success">
         <div style="font-size:40px;margin-bottom:1rem">✅</div>
         <h3>Message sent!</h3>
-        <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
+        <p>Thanks for reaching out. We will get back to you within 24 hours.</p>
       </div>
     </div>
   </div>
@@ -343,7 +340,7 @@
 </footer>
 
 <script>
-var ANTHROPIC_API_KEY = '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';
+var API_KEY = 'YOUR_API_KEY_HERE';
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(function(p) {
@@ -363,10 +360,7 @@ function showPage(name) {
 function submitCapture() {
   var name = document.getElementById('capture-name').value.trim();
   var email = document.getElementById('capture-email').value.trim();
-  if (!name || !email) {
-    alert('Please enter your name and email.');
-    return;
-  }
+  if (!name || !email) { alert('Please enter your name and email.'); return; }
   document.getElementById('confirm-msg').style.display = 'block';
   document.getElementById('capture-name').value = '';
   document.getElementById('capture-email').value = '';
@@ -375,10 +369,7 @@ function submitCapture() {
 function submitContact() {
   var first = document.getElementById('c-first').value.trim();
   var email = document.getElementById('c-email').value.trim();
-  if (!first || !email) {
-    alert('Please fill in your name and email.');
-    return;
-  }
+  if (!first || !email) { alert('Please fill in your name and email.'); return; }
   document.getElementById('contact-form').style.display = 'none';
   document.getElementById('contact-success').style.display = 'block';
 }
@@ -409,7 +400,7 @@ async function runPlanner() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
+        'x-api-key': API_KEY,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
@@ -421,16 +412,10 @@ async function runPlanner() {
     });
 
     var data = await res.json();
-
-    if (data.error) {
-      throw new Error(data.error.message);
-    }
-
+    if (data.error) { throw new Error(data.error.message); }
     var text = data.content[0].text;
-    var clean = text.replace(/```json|```/g, '').trim();
-    var jsonMatch = clean.match(/\{[\s\S]*\}/);
-var result = JSON.parse(jsonMatch ? jsonMatch[0] : clean);
-
+    var jsonMatch = text.match(/\{[\s\S]*\}/);
+    var result = JSON.parse(jsonMatch ? jsonMatch[0] : text);
     document.getElementById('planner-loading').style.display = 'none';
     renderPlan(result);
 
