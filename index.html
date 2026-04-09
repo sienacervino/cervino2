@@ -339,7 +339,6 @@
   <p>2026 Cervino Celebrations · AI event planning for college organizations</p>
 </footer>
 
-<script src="config.js"></script>
 <script>
 
 function showPage(name) {
@@ -396,14 +395,9 @@ async function runPlanner() {
   var prompt = 'You are an AI event planner for college student organizations on tight budgets. Plan a ' + type + ' at ' + school + ' for ' + attendance + ' people with a $' + budget + ' budget. Date: ' + dateStr + '. ' + (theme ? 'Theme: ' + theme + '.' : '') + ' ' + (notes ? 'Notes: ' + notes : '') + ' Return ONLY valid JSON with no markdown and no backticks: {"venues":{"title":"Venue suggestions","options":[{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."},{"name":"...","description":"...","estimatedCost":"...","tip":"..."}]},"budget":{"title":"Budget breakdown","items":[{"category":"...","estimated":"...","percentage":30,"notes":"..."}],"savingTips":["...","...","..."]},"decor":{"title":"Decor and supply checklist","essentials":["...","...","..."],"niceToHave":["...","...","..."],"diySuggestions":["...","...","..."]},"timeline":{"title":"Planning timeline","tasks":[{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]},{"timeframe":"...","tasks":["...","..."]}]}}';
 
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/api/plan', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
